@@ -1,0 +1,40 @@
+# Secrets — KHÔNG BAO GIỜ commit
+testAI/.env
+.env
+.env.local
+*.env
+!*.env.example
+
+# Node
+node_modules/
+
+# Tài liệu/nháp/backup nội bộ — không phục vụ build website, không push công khai
+_backup-mau-cu/
+thiet-ke-moi/
+Mistake/
+SEO/
+khác/
+shoppe/
+task/
+thông báo/
+.claude/
+PLAN.md
+SETUP-DATABASE.sql
+SETUP-HUONG-DAN.md
+AI-Chat-Admin-Ke-Hoach.md
+AI-Chat-Nhung-Co-Tool.md
+mau-the-san-pham/
+
+# Repo PUBLIC — chỉ giữ file phục vụ Netlify build. Các mục dev/nhạy cảm dưới
+# đây giữ TRÊN MÁY nhưng KHÔNG đẩy lên repo công khai.
+# (KHÔNG viết comment cùng dòng với pattern — gitignore không hỗ trợ.)
+# - website-main/ai-chat/ : relay local + demo + system-prompt (prod dùng netlify/functions)
+# - sql/ : migration DB (giữ máy để dựng lại DB; không cần cho build)
+# - CLAUDE.md : ghi chú kiến trúc bảo mật + lỗ hổng cũ — không public
+website-main/ai-chat/
+sql/
+CLAUDE.md
+
+# OS
+Thumbs.db
+.DS_Store
