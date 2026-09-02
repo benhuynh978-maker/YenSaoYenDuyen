@@ -29,11 +29,27 @@ mau-the-san-pham/
 # đây giữ TRÊN MÁY nhưng KHÔNG đẩy lên repo công khai.
 # (KHÔNG viết comment cùng dòng với pattern — gitignore không hỗ trợ.)
 # - website-main/ai-chat/ : relay local + demo + system-prompt (prod dùng netlify/functions)
+# - website-main/admin/  : trang quản trị — CHỈ chạy local trên máy chủ site,
+#   không public qua domain khách hàng (quyết định 02/09/2026). Vẫn gọi
+#   Supabase thật qua Internet khi mở local, không phải môi trường test riêng.
+# - website-main/Rubbish/ : trang mồ côi không dùng nữa — vẫn còn trong lịch sử
+#   git (commit 0e40b65/89592b0) nếu cần khôi phục, không xóa vĩnh viễn.
 # - sql/ : migration DB (giữ máy để dựng lại DB; không cần cho build)
 # - CLAUDE.md : ghi chú kiến trúc bảo mật + lỗ hổng cũ — không public
 website-main/ai-chat/
+website-main/admin/
+website-main/Rubbish/
 sql/
 CLAUDE.md
+
+# JS/CSS chỉ được website-main/admin/*.html gọi tới (đã xác nhận qua grep 2
+# chiều 02/09/2026: không trang khách hàng nào tham chiếu) — cùng lý do với
+# website-main/admin/ ở trên, giữ trên máy để admin local vẫn chạy đủ.
+website-main/js/admin-ai-chat.js
+website-main/js/admin-notifications.js
+website-main/js/admin-status.js
+website-main/css/admin.css
+website-main/css/admin-notifications.css
 
 # Ảnh tạm/screenshot gửi trong lúc trao đổi (không phải asset thật của site —
 # asset thật đã copy vào website-main/images/...)
