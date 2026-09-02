@@ -35,6 +35,12 @@ website-main/ai-chat/
 sql/
 CLAUDE.md
 
+# Ảnh tạm/screenshot gửi trong lúc trao đổi (không phải asset thật của site —
+# asset thật đã copy vào website-main/images/...)
+/ABC.png
+/HA.png
+/banner_s305.jpg
+
 # OS
 Thumbs.db
 .DS_Store

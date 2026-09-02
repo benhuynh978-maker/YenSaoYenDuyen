@@ -21,51 +21,7 @@
   <link rel="stylesheet" href="css/ai-chat.css">
 
   <style>
-    /* ---- Page Banner ---- */
-    .page-banner {
-      background: var(--gradient-brand);
-      padding: 100px 0 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-    .page-banner__label {
-      display: inline-block;
-      font-family: var(--font-accent);
-      font-size: 0.8rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: 12px;
-    }
-    .page-banner__title {
-      font-family: var(--font-heading);
-      font-size: clamp(2rem, 5vw, 3.2rem);
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 16px;
-    }
-    .page-banner__desc {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.82);
-      max-width: 560px;
-      margin: 0 auto 24px;
-      line-height: 1.7;
-    }
-    .page-banner__breadcrumb {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.6);
-    }
-    .page-banner__breadcrumb a { color: var(--color-gold); text-decoration: none; }
-    .page-banner__breadcrumb a:hover { text-decoration: underline; }
-    .page-banner__breadcrumb span { margin: 0 8px; }
+    /* ---- Page Banner ---- dùng .page-banner CHUNG trong css/sections.css ---- */
 
     /* ---- Filter Tabs ---- */
     .combo-filter {
@@ -516,7 +472,7 @@
       <div class="container">
         <div class="section-header text-center animate-on-scroll">
           <p class="section-label">Cam kết chất lượng</p>
-          <h2 class="section-title" id="why-gift-title">Tại Sao Chọn Quà Yến Duyên? <span class="demo-tag-inline" title="Nội dung 4 mục bên dưới do AI soạn minh hoạ, chưa phải cam kết chính thức của shop">Demo</span></h2>
+          <h2 class="section-title" id="why-gift-title">Tại Sao Chọn Quà Yến Duyên?</h2>
         </div>
         <div class="why-gift-grid">
           <div class="why-gift-item animate-on-scroll">
@@ -528,19 +484,12 @@
           </div>
           <div class="why-gift-item animate-on-scroll" style="animation-delay:0.1s">
             <div class="why-gift-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-            </div>
-            <h3>Thiệp Cá Nhân Hóa</h3>
-            <p>Mỗi bộ quà đều kèm thiệp viết tay hoặc in tên theo yêu cầu — chạm đến trái tim người nhận.</p>
-          </div>
-          <div class="why-gift-item animate-on-scroll" style="animation-delay:0.2s">
-            <div class="why-gift-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             </div>
             <h3>Giao Hàng Toàn Quốc</h3>
             <p>Giao hàng tận nơi trên toàn quốc. Đảm bảo hàng nguyên vẹn, đúng hẹn khi cần gấp.</p>
           </div>
-          <div class="why-gift-item animate-on-scroll" style="animation-delay:0.3s">
+          <div class="why-gift-item animate-on-scroll" style="animation-delay:0.2s">
             <div class="why-gift-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>

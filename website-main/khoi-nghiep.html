@@ -23,44 +23,7 @@
     /* =============================================
        PAGE BANNER
     ============================================= */
-    .page-banner {
-      background: var(--gradient-brand);
-      padding: 80px 0 60px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-      opacity: 0.4;
-    }
-    .page-banner__label {
-      font-family: var(--font-accent);
-      font-size: 12px;
-      letter-spacing: 3px;
-      color: var(--color-gold);
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .page-banner__title {
-      font-family: var(--font-heading);
-      font-size: clamp(28px, 5vw, 48px);
-      color: #fff;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    .page-banner__desc {
-      font-family: var(--font-body);
-      font-size: 16px;
-      color: rgba(255,255,255,0.8);
-      max-width: 560px;
-      margin: 0 auto 20px;
-      position: relative;
-    }
+    /* .page-banner dùng bản CHUNG trong css/sections.css */
     .breadcrumb {
       display: flex;
       align-items: center;
@@ -76,12 +39,8 @@
     .breadcrumb span { color: rgba(255,255,255,0.4); }
 
     /* =============================================
-       FEATURED POST
+       FEATURED POST (class dùng lại bởi carousel bài nổi bật THẬT — xem #real-featured-section)
     ============================================= */
-    .featured-section {
-      background: var(--color-cream);
-      padding: 64px 0 0;
-    }
     .featured-post {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -192,36 +151,6 @@
       grid-template-columns: 1fr 300px;
       gap: 48px;
       align-items: start;
-    }
-
-    /* Filter tabs */
-    .blog-filter {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
-    }
-    .blog-filter-btn {
-      background: #fff;
-      border: 1.5px solid #e0d6cc;
-      color: #666;
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      padding: 7px 18px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .blog-filter-btn:hover {
-      border-color: var(--color-brand);
-      color: var(--color-brand);
-    }
-    .blog-filter-btn.is-active {
-      background: var(--color-brand);
-      border-color: var(--color-brand);
-      color: #fff;
     }
 
     /* Article grid */
@@ -335,7 +264,6 @@
       padding: 64px 32px;
       display: none;
     }
-    .blog-no-results.is-visible { display: block; }
     .blog-no-results p {
       font-family: var(--font-body);
       font-size: 16px;
@@ -478,88 +406,6 @@
     }
 
     /* =============================================
-       NEWSLETTER CTA
-    ============================================= */
-    .blog-cta-section {
-      background: var(--gradient-brand);
-      padding: 72px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .blog-cta-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-    }
-    .blog-cta-label {
-      font-family: var(--font-accent);
-      font-size: 11px;
-      letter-spacing: 3px;
-      color: var(--color-gold);
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .blog-cta-title {
-      font-family: var(--font-heading);
-      font-size: clamp(22px, 4vw, 36px);
-      color: #fff;
-      margin-bottom: 12px;
-      position: relative;
-    }
-    .blog-cta-desc {
-      font-family: var(--font-body);
-      font-size: 15px;
-      color: rgba(255,255,255,0.8);
-      max-width: 500px;
-      margin: 0 auto 32px;
-      line-height: 1.7;
-      position: relative;
-    }
-    .blog-cta-form {
-      display: flex;
-      max-width: 440px;
-      margin: 0 auto;
-      gap: 0;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      position: relative;
-    }
-    .blog-cta-form input {
-      flex: 1;
-      padding: 14px 20px;
-      border: none;
-      outline: none;
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: #333;
-    }
-    .blog-cta-form input::placeholder { color: #bbb; }
-    .blog-cta-form button {
-      background: var(--color-gold);
-      color: var(--color-brand);
-      border: none;
-      padding: 14px 24px;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-      white-space: nowrap;
-    }
-    .blog-cta-form button:hover { background: #c4a028; }
-    .blog-cta-note {
-      font-family: var(--font-body);
-      font-size: 12px;
-      color: rgba(255,255,255,0.5);
-      margin-top: 12px;
-      position: relative;
-    }
-
-    /* =============================================
        RESPONSIVE
     ============================================= */
     @media (max-width: 1024px) {
@@ -589,46 +435,7 @@
       .blog-articles-grid {
         grid-template-columns: 1fr;
       }
-      .featured-section { padding-top: 40px; }
       .blog-page-layout { padding: 40px 0 60px; }
-    }
-
-    /* =============================================
-       NHÃN DEMO — đánh dấu nội dung mẫu, chưa phải bài viết thật
-    ============================================= */
-    .demo-tag {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      z-index: 2;
-      background: #fde68a;
-      color: #92400e;
-      font-family: var(--font-body);
-      font-size: 10.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      padding: 3px 10px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.15);
-    }
-    .demo-tag-inline {
-      display: inline-block;
-      background: #fde68a;
-      color: #92400e;
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      padding: 2px 8px;
-      border-radius: 10px;
-      vertical-align: middle;
-    }
-    .section-subheading {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: #999;
-      margin: -20px 0 24px;
     }
 
     /* =============================================
@@ -759,42 +566,6 @@
       </div>
     </section>
 
-    <!-- FEATURED POST (DEMO — minh hoạ giao diện, chưa phải bài viết thật) -->
-    <section class="featured-section">
-      <div class="container">
-        <article class="featured-post animate-on-scroll" aria-labelledby="featured-title" style="position:relative;">
-          <div class="featured-post__img-wrap">
-            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&h=600&fit=crop" alt="Lợi ích của yến sào đối với sức khoẻ" loading="eager" width="800" height="600">
-            <span class="featured-post__badge">Bài nổi bật</span>
-          </div>
-          <span class="demo-tag">Demo</span>
-          <div class="featured-post__body">
-            <span class="featured-post__cat">Sức khoẻ</span>
-            <h2 class="featured-post__title" id="featured-title">Lợi Ích Của Yến Sào Đối Với Sức Khoẻ Toàn Diện — Khoa Học Đã Chứng Minh</h2>
-            <p class="featured-post__excerpt">Yến sào không chỉ là món ăn bổ dưỡng lâu đời trong y học cổ truyền mà còn được nghiên cứu khoa học hiện đại xác nhận với hàm lượng protein cao, axit amin thiết yếu và các glycoprotein quý giá. Bài viết tổng hợp đầy đủ tác dụng với từng độ tuổi, từ trẻ sơ sinh đến người cao tuổi.</p>
-            <div class="featured-post__meta">
-              <span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                10/01/2025
-              </span>
-              <span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                5 phút đọc
-              </span>
-              <span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                1.248 lượt xem
-              </span>
-            </div>
-            <a href="#" class="btn-read-more">
-              Đọc bài viết
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
-
     <!-- BLOG GRID + SIDEBAR -->
     <section class="blog-page-layout">
       <div class="container">
@@ -810,218 +581,6 @@
               <p class="blog-no-results" id="real-posts-no-results" hidden>Không tìm thấy bài viết nào khớp với từ khoá tìm kiếm.</p>
               <nav class="pagination" id="real-posts-pagination" aria-label="Phân trang bài viết" style="margin-bottom:48px;"></nav>
             </div>
-
-            <!-- Category filter (lọc thật lưới bài viết thật phía trên + lưới demo bên dưới) -->
-            <div class="blog-filter" role="tablist" aria-label="Lọc bài viết theo chủ đề">
-              <button class="blog-filter-btn is-active" data-filter="all" role="tab" aria-selected="true">Tất cả</button>
-              <button class="blog-filter-btn" data-filter="suc-khoe" role="tab" aria-selected="false">Sức khoẻ</button>
-              <button class="blog-filter-btn" data-filter="am-thuc" role="tab" aria-selected="false">Ẩm thực</button>
-              <button class="blog-filter-btn" data-filter="qua-tang" role="tab" aria-selected="false">Quà tặng</button>
-              <button class="blog-filter-btn" data-filter="kien-thuc" role="tab" aria-selected="false">Kiến thức</button>
-            </div>
-            <p class="section-subheading">Các bài bên dưới là <strong>DEMO</strong> — nội dung mẫu minh hoạ giao diện, chưa phải bài viết thật.</p>
-
-            <!-- Articles grid -->
-            <div class="blog-articles-grid" id="blog-articles-grid">
-
-              <!-- Article 2 -->
-              <article class="blog-article-card animate-on-scroll" data-category="am-thuc">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=375&fit=crop" alt="Bí quyết nấu chè yến sào" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Ẩm thực</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>05/01/2025</time>
-                    <span class="dot">·</span>
-                    <span>7 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Bí Quyết Nấu Chè Yến Sào Ngon Đúng Điệu Huế</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Chè yến sào là món tráng miệng truyền thống của người Huế. Để có bát chè trong vắt, thơm ngon, cần tuân theo đúng các bước sơ chế và nấu nướng — từ ngâm, đến lửa, đến tỉ lệ đường.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 3 -->
-              <article class="blog-article-card animate-on-scroll" data-category="qua-tang" style="animation-delay:0.05s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=600&h=375&fit=crop" alt="Quà tặng yến sào dịp Tết" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Quà tặng</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>28/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>4 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Ý Tưởng Quà Tặng Yến Sào Dịp Tết Nguyên Đán 2025</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Yến sào là món quà biếu ý nghĩa nhất trong dịp Tết, thể hiện sự trân trọng và quan tâm đến sức khoẻ của người thân. Cùng khám phá các set quà được yêu thích nhất năm nay.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 4 -->
-              <article class="blog-article-card animate-on-scroll" data-category="kien-thuc" style="animation-delay:0.1s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=375&fit=crop" alt="Cách chọn yến sào chất lượng" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Kiến thức</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>20/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>6 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Cách Chọn Yến Sào Chất Lượng — 5 Điều Không Được Bỏ Qua</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Thị trường yến sào ngày càng nhiều hàng giả, hàng kém chất lượng. Bài viết hướng dẫn 5 tiêu chí kiểm tra đơn giản ngay tại nhà để không bị mua nhầm hàng tẩy trắng hay tẩm hoá chất.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 5 -->
-              <article class="blog-article-card animate-on-scroll" data-category="suc-khoe" style="animation-delay:0.15s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1493770348161-369560ae357d?w=600&h=375&fit=crop" alt="Yến sào cho bà bầu" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Sức khoẻ</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>15/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>8 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Yến Sào Cho Bà Bầu — Ăn Bao Nhiêu Là Đủ Và Khi Nào Nên Tránh?</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Yến sào rất tốt cho phụ nữ mang thai nhờ hàm lượng protein và khoáng chất cao, nhưng cần dùng đúng liều lượng và đúng thời điểm. Bác sĩ dinh dưỡng giải đáp mọi thắc mắc.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 6 -->
-              <article class="blog-article-card animate-on-scroll" data-category="kien-thuc" style="animation-delay:0.2s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1585615711529-6e3b6cb91ab8?w=600&h=375&fit=crop" alt="Cách bảo quản yến sào" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Kiến thức</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>10/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>4 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Cách Bảo Quản Yến Sào Đúng Cách Để Giữ Nguyên Dưỡng Chất</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Yến sào là thực phẩm nhạy cảm với nhiệt độ và độ ẩm. Bảo quản sai cách có thể làm mất đi đến 60% dưỡng chất. Học ngay cách lưu trữ đúng chuẩn cho từng dạng yến.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 7 -->
-              <article class="blog-article-card animate-on-scroll" data-category="kien-thuc" style="animation-delay:0.25s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=600&h=375&fit=crop" alt="Sự khác biệt yến thô và yến tinh chế" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Kiến thức</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>05/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>5 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Yến Thô Và Yến Tinh Chế — Khác Nhau Thế Nào? Nên Mua Loại Nào?</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Nhiều người băn khoăn không biết nên mua yến thô hay yến tinh chế. Bài viết so sánh chi tiết về giá trị dinh dưỡng, cách chế biến, giá cả và phù hợp với mục đích sử dụng nào.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 8 -->
-              <article class="blog-article-card animate-on-scroll" data-category="am-thuc" style="animation-delay:0.3s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=600&h=375&fit=crop" alt="Cách chế biến yến sào" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Ẩm thực</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>01/12/2024</time>
-                    <span class="dot">·</span>
-                    <span>9 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Top 5 Cách Chế Biến Yến Sào Đơn Giản Tại Nhà Cực Ngon</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Từ yến chưng đường phèn truyền thống, chè yến táo đỏ, đến sinh tố yến thanh mát — 5 công thức đơn giản mà ai cũng làm được, giúp bạn tận hưởng yến sào theo nhiều cách khác nhau.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- Article 9 -->
-              <article class="blog-article-card animate-on-scroll" data-category="qua-tang" style="animation-delay:0.35s">
-                <div class="blog-article-card__img-wrap">
-                  <img src="https://images.unsplash.com/photo-1607897782009-7e3e18b7dcb5?w=600&h=375&fit=crop" alt="Quà tặng yến sào cho người lớn tuổi" loading="lazy" width="600" height="375">
-                  <span class="blog-article-card__cat">Quà tặng</span>
-                  <span class="demo-tag">Demo</span>
-                </div>
-                <div class="blog-article-card__body">
-                  <div class="blog-article-card__meta">
-                    <time>25/11/2024</time>
-                    <span class="dot">·</span>
-                    <span>5 phút đọc</span>
-                  </div>
-                  <h3 class="blog-article-card__title">
-                    <a href="#">Tặng Yến Sào Cho Bố Mẹ — Lựa Chọn Ý Nghĩa Nhất Thể Hiện Hiếu Thảo</a>
-                  </h3>
-                  <p class="blog-article-card__excerpt">Với người lớn tuổi, yến sào không chỉ là món ăn bổ dưỡng mà còn là món quà chứa đựng tâm ý của con cái. Hướng dẫn chọn loại yến phù hợp và ngân sách tham khảo theo từng dịp.</p>
-                  <a href="#" class="blog-article-card__read-more">
-                    Đọc thêm
-                    <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </a>
-                </div>
-              </article>
-
-              <!-- No results message -->
-              <div class="blog-no-results" id="blog-no-results" aria-live="polite">
-                <p>Không tìm thấy bài viết phù hợp. Vui lòng thử chủ đề khác.</p>
-              </div>
-
-            </div><!-- /.blog-articles-grid -->
 
           </div><!-- /.blog-main -->
 
@@ -1094,21 +653,6 @@
 
         </div><!-- /.blog-page-inner -->
       </div><!-- /.container -->
-    </section>
-
-    <!-- NEWSLETTER CTA -->
-    <section class="blog-cta-section" aria-labelledby="blog-cta-title">
-      <div class="container">
-        <p class="blog-cta-label">Không bỏ lỡ bài viết mới <span class="demo-tag-inline" title="Form minh hoạ, hiện chưa lưu email vào hệ thống">Demo</span></p>
-        <h2 class="blog-cta-title" id="blog-cta-title">Đăng Ký Nhận Cẩm Nang Yến Sào Hàng Tuần</h2>
-        <p class="blog-cta-desc">Nhận ngay công thức mới, kiến thức chuyên sâu và ưu đãi độc quyền dành riêng cho thành viên đăng ký bản tin.</p>
-        <form class="blog-cta-form" id="blog-cta-form" novalidate aria-label="Form đăng ký nhận tin">
-          <label for="cta-email" class="sr-only">Địa chỉ email</label>
-          <input type="email" id="cta-email" placeholder="Nhập địa chỉ email của bạn..." autocomplete="email" required>
-          <button type="submit">Đăng ký ngay</button>
-        </form>
-        <p class="blog-cta-note">Chúng tôi tôn trọng quyền riêng tư. Không spam, hủy đăng ký bất kỳ lúc nào.</p>
-      </div>
     </section>
 
   </main>
@@ -1272,58 +816,7 @@
     animEls.forEach(function(el){ obs.observe(el); });
   }
 
-  // ---- BLOG FILTER (category tabs) ----
-  var filterBtns = document.querySelectorAll('.blog-filter-btn');
-  var articles = document.querySelectorAll('.blog-article-card');
-  var noResults = document.getElementById('blog-no-results');
-  var currentFilter = 'all';
-
-  function applyFilter(filter){
-    currentFilter = filter;
-    var visible = 0;
-    articles.forEach(function(card){
-      var cat = card.dataset.category;
-      var show = filter === 'all' || cat === filter;
-      if(show){ card.classList.remove('is-hidden'); visible++; }
-      else { card.classList.add('is-hidden'); }
-    });
-    if(noResults){ noResults.classList.toggle('is-visible', visible === 0); }
-    filterBtns.forEach(function(btn){
-      var isActive = btn.dataset.filter === filter;
-      btn.classList.toggle('is-active', isActive);
-      btn.setAttribute('aria-selected', String(isActive));
-    });
-  }
-
-  filterBtns.forEach(function(btn){
-    btn.addEventListener('click', function(){ applyFilter(btn.dataset.filter); });
-  });
-
-  // Sidebar category links
-  document.querySelectorAll('[data-filter-sidebar]').forEach(function(link){
-    link.addEventListener('click', function(e){
-      e.preventDefault();
-      applyFilter(link.dataset.filterSidebar);
-      var grid = document.getElementById('blog-articles-grid');
-      if(grid){ window.scrollTo({ top: grid.getBoundingClientRect().top + scrollY - 120, behavior:'smooth'}); }
-    });
-  });
-
-  // (Tìm kiếm blog: đã chuyển sang tìm bài viết THẬT — xem script Supabase phía cuối trang)
-
-  // ---- NEWSLETTER CTA ----
-  var ctaForm = document.getElementById('blog-cta-form');
-  if(ctaForm){
-    ctaForm.addEventListener('submit', function(e){
-      e.preventDefault();
-      var emailInput = ctaForm.querySelector('input[type="email"]');
-      var email = emailInput ? emailInput.value.trim() : '';
-      if(!email){ showToast('Vui lòng nhập địa chỉ email.', 'error'); return; }
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ showToast('Email không hợp lệ. Vui lòng kiểm tra lại.', 'error'); return; }
-      showToast('Đăng ký nhận bản tin thành công! Cảm ơn bạn.', 'success');
-      ctaForm.reset();
-    });
-  }
+  // (Lọc chủ đề + tìm kiếm blog: xem script Supabase phía cuối trang — lọc trực tiếp lưới bài viết thật)
 
   // Init
   updateCartBadge();
@@ -1335,7 +828,6 @@
   <script>
   /* ============================================================
      BÀI VIẾT THẬT TỪ SUPABASE (blog_posts) — carousel nổi bật + lưới bài
-     Không đụng tới nội dung DEMO tĩnh phía dưới (giữ nguyên theo yêu cầu).
      ============================================================ */
   (function(){
     if (typeof getSupabase !== 'function') return;
@@ -1473,11 +965,7 @@
       });
     }
 
-    // Tab lọc chủ đề + link chủ đề ở sidebar — nối thêm 1 listener riêng để lọc
-    // LƯỚI BÀI THẬT (không đụng listener cũ trong script phía trên, vốn chỉ lọc lưới demo).
-    document.querySelectorAll('.blog-filter-btn').forEach(function(btn){
-      btn.addEventListener('click', function(){ filterRealPostsByTopic(btn.dataset.filter); });
-    });
+    // Link chủ đề ở sidebar — lọc trực tiếp LƯỚI BÀI THẬT
     document.querySelectorAll('[data-filter-sidebar]').forEach(function(link){
       link.addEventListener('click', function(){ filterRealPostsByTopic(link.dataset.filterSidebar); });
     });

@@ -7,193 +7,6 @@
 
 
 /* ==============================================
-   1. CATEGORIES SECTION
-   ============================================== */
-
-.categories-section {
-  background: var(--color-surface);
-}
-
-.categories-section .section-header {
-  margin-bottom: var(--space-48);
-}
-
-/* Tab bar */
-.category-tabs {
-  display: flex;
-  justify-content: center;
-  gap: var(--space-8);
-  flex-wrap: wrap;
-  margin-bottom: var(--space-48);
-}
-
-.category-tab {
-  padding: 10px 28px;
-  font-family: var(--font-body);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--color-text-medium);
-  background: var(--color-cream);
-  border: var(--border-light);
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: all var(--transition-base);
-  white-space: nowrap;
-}
-
-.category-tab:hover {
-  border-color: var(--color-selected);
-  color: var(--color-selected);
-  background: var(--color-surface);
-}
-
-.category-tab.active,
-.category-tab[aria-selected="true"] {
-  background: var(--gradient-button);
-  color: var(--color-white);
-  border-color: transparent;
-  box-shadow: var(--shadow-brand);
-}
-
-.category-tab:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 3px;
-}
-
-/* Panel */
-.category-panels {
-  overflow: hidden;
-}
-
-.category-panel {
-  display: block;
-  animation: fadeIn 0.35s ease-out;
-}
-
-.category-panel[hidden] {
-  display: none;
-}
-
-.category-panel-inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-64);
-  align-items: center;
-}
-
-/* Image side */
-.category-img {
-  position: relative;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  box-shadow: var(--shadow-lg);
-}
-
-.category-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-slow);
-  display: block;
-}
-
-.category-img:hover img {
-  transform: scale(1.04);
-}
-
-.category-img-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(43, 36, 32, 0.45) 0%,
-    transparent 55%
-  );
-  pointer-events: none;
-}
-
-/* Content side */
-.category-content h3 {
-  font-family: var(--font-heading);
-  font-size: clamp(var(--text-2xl), 2.5vw, var(--text-3xl));
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--space-16);
-  line-height: var(--leading-snug);
-}
-
-.category-content p {
-  font-size: var(--text-base);
-  color: var(--color-text-medium);
-  line-height: var(--leading-relaxed);
-  margin-bottom: var(--space-24);
-}
-
-.category-features {
-  list-style: none;
-  margin-bottom: var(--space-32);
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.category-features li {
-  position: relative;
-  padding: var(--space-10, 0.625rem) 0 var(--space-10, 0.625rem) var(--space-24);
-  font-size: var(--text-sm);
-  color: var(--color-text-medium);
-  border-bottom: 1px solid rgba(140, 128, 116, 0.1);
-  line-height: var(--leading-snug);
-}
-
-.category-features li:last-child {
-  border-bottom: none;
-}
-
-.category-features li::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 8px;
-  height: 8px;
-  background: var(--color-gold);
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-@media (max-width: 1023px) {
-  .category-panel-inner {
-    gap: var(--space-40);
-  }
-}
-
-@media (max-width: 767px) {
-  .category-panel-inner {
-    grid-template-columns: 1fr;
-    gap: var(--space-32);
-  }
-
-  .category-content h3 {
-    font-size: var(--text-2xl);
-  }
-
-  .category-tabs {
-    gap: var(--space-8);
-  }
-
-  .category-tab {
-    padding: 8px 18px;
-    font-size: 0.75rem;
-  }
-}
-
-
-/* ==============================================
    2. WHY CHOOSE US SECTION
    ============================================== */
 
@@ -1923,6 +1736,62 @@
 
 
 /* ==============================================
+   12b. PAGE BANNER (hero chuẩn CHUNG cho các trang con)
+   ------------------------------------------------
+   1 nguồn duy nhất — mọi trang dùng .page-banner sẽ giống hệt nhau (nền
+   gradient nâu + hoa văn vàng mờ, KHÔNG ảnh). Các trang trước đây tự định
+   nghĩa .page-banner inline (lệch nhau) đã được gỡ để dùng bản này.
+   .page-banner__sub là alias của __desc (giữ HTML cũ của giới thiệu/liên hệ).
+   ============================================== */
+.page-banner {
+  background: var(--gradient-brand);
+  padding: 100px 0 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.page-banner .container { position: relative; z-index: 1; }
+.page-banner__label {
+  display: inline-block;
+  font-family: var(--font-accent);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  margin-bottom: 12px;
+}
+.page-banner__title {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.page-banner__desc,
+.page-banner__sub {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 560px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
+}
+.page-banner__breadcrumb {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+.page-banner__breadcrumb a { color: var(--color-gold); text-decoration: none; }
+.page-banner__breadcrumb a:hover { text-decoration: underline; }
+.page-banner__breadcrumb span { margin: 0 8px; }
+
+
+/* ==============================================
    12. PAGE HERO (inner pages)
    ============================================== */
 
@@ -2727,7 +2596,6 @@
   .cart-table__subtotal { font-size: var(--text-sm); }
   .cart-actions { flex-direction: column; align-items: stretch; }
   .voucher-form { flex-direction: column; }
-}
 }
 
 /* ==============================================

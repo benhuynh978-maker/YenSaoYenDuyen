@@ -17,89 +17,15 @@
   <link rel="stylesheet" href="css/ai-chat.css">
 
   <style>
-    /* ── Riêng trang này: quay lại bảng màu gốc (đỏ/nâu/vàng/trắng),
-       không đụng các trang khác đang dùng bảng màu mới (kem/gold/xanh ngọc).
-       Chỉ cần đè lại các CSS custom property — toàn bộ site vốn tham chiếu
-       qua var(--...) nên không cần sửa từng rule. ── */
-    :root {
-      --color-brand:           #3E2723;
-      --color-brand-medium:    #5D4037;
-      --color-brand-light:     #8D6E63;
-      --color-primary:         #8B0000;
-      --color-primary-hover:   #A52A2A;
-      --color-gold:            #D4AF37;
-      --color-gold-pale:       #F5E6D3;
-      --color-cream:           #FAF6F1;
-      --color-text:            #2C1810;
-      --color-text-medium:     #5D4037;
-      --color-text-light:      #8D6E63;
-      --color-text-on-dark:    #FAF6F1;
-      --color-success:         #2E7D32;
-      --color-bg:              #FAF6F1;
-      --color-surface:         #FFFFFF;
-      --color-selected:        #8B0000;
-      --color-selected-hover:  #A52A2A;
-      --gradient-brand:        linear-gradient(135deg, #3E2723 0%, #5D4037 50%, #8B0000 100%);
-      --gradient-hero:         linear-gradient(135deg, #3E2723 0%, #5D4037 50%, #8B0000 100%);
-      --gradient-card:         linear-gradient(180deg, #FAF6F1 0%, #F5E6D3 100%);
-      --gradient-button:       linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
-      --gradient-gold:         linear-gradient(135deg, #D4AF37 0%, #F0D060 50%, #D4AF37 100%);
-      --shadow-sm:             0 2px 6px rgba(62, 39, 35, 0.06);
-      --shadow-md:             0 4px 12px rgba(62, 39, 35, 0.08);
-      --shadow-lg:             0 12px 24px rgba(62, 39, 35, 0.15);
-      --shadow-xl:             0 20px 40px rgba(62, 39, 35, 0.2);
-      --shadow-brand:          0 4px 16px rgba(139, 0, 0, 0.2);
-      --shadow-gold:           0 4px 16px rgba(212, 175, 55, 0.3);
-      --border-subtle:         1px solid rgba(139, 0, 0, 0.1);
-      --border-light:          1px solid rgba(141, 110, 99, 0.2);
-      --border-gold:           1px solid rgba(212, 175, 55, 0.4);
-    }
-
-    /* ── Page-level styles for san-pham.html ── */
-
-    .page-hero {
-      background: var(--gradient-brand);
-      padding: 100px 0 48px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .page-hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1920&h=400&fit=crop&q=60') center/cover no-repeat;
-      opacity: 0.08;
-    }
-    .page-hero__label {
-      font-family: var(--font-accent);
-      font-size: var(--text-sm);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--color-gold);
-      margin-bottom: var(--space-12);
-      position: relative;
-    }
-    .page-hero__title {
-      font-family: var(--font-heading);
-      font-size: var(--text-4xl);
-      font-weight: 700;
-      color: var(--color-white);
-      position: relative;
-      margin-bottom: var(--space-16);
-    }
-    .page-hero__breadcrumb {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: var(--space-8);
-      font-size: var(--text-sm);
-      color: rgba(255,255,255,0.65);
-      position: relative;
-    }
-    .page-hero__breadcrumb a { color: rgba(255,255,255,0.75); text-decoration: none; }
-    .page-hero__breadcrumb a:hover { color: var(--color-gold); }
-    .page-hero__breadcrumb span { color: var(--color-gold); }
+    /* ── Trang sản phẩm dùng ĐÚNG bảng màu chuẩn toàn site (định nghĩa trong
+       css/base.css: nâu đen/gold/kem) — không còn override riêng nữa.
+       Trước đây trang này từng tự đè bộ biến CSS khác (đỏ #8B0000/nâu riêng)
+       để tạo tông khác biệt, gây rò rỉ màu đỏ sang các phần dùng chung như
+       .site-header dù đã cố scope qua 1 class bọc riêng. Sau khi xác nhận lại
+       với chủ site: bỏ hẳn hướng "tông riêng", quay về đồng bộ 100% với các
+       trang khác (combo-qua-tang.html, khoi-nghiep.html...) — không còn nguồn
+       phát sinh xung đột màu nào nữa. Div bọc .san-pham-scope cũng đã gỡ khỏi
+       HTML vì không còn cần scope biến cho gì cả. ── */
 
     /* ── Shop Layout ── */
     .shop-layout {
@@ -128,7 +54,7 @@
       justify-content: space-between;
       align-items: center;
       padding: var(--space-16) var(--space-20);
-      background: var(--color-cream);
+      background: var(--color-white);
       border-bottom: var(--border-subtle);
       cursor: pointer;
       user-select: none;
@@ -172,7 +98,8 @@
       margin-left: auto;
       font-size: var(--text-xs);
       color: var(--color-text-muted);
-      background: var(--color-cream);
+      background: transparent;
+      border: 1px solid rgba(0,0,0,.09);
       border-radius: var(--radius-full);
       padding: 1px 8px;
     }
@@ -489,7 +416,6 @@
       .products-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      .page-hero__title { font-size: var(--text-3xl); }
       /* Đổi layout thành 1 cột, sidebar thành drawer */
       .shop-layout { flex-direction: column; }
       .filter-sidebar {
@@ -580,14 +506,15 @@
   </header>
 
   <!-- PAGE HERO -->
-  <section class="page-hero" aria-label="Trang sản phẩm">
+  <section class="page-banner" aria-label="Trang sản phẩm">
     <div class="container">
-      <p class="page-hero__label">Tinh hoa yến sào thiên nhiên</p>
-      <h1 class="page-hero__title">Tất Cả Sản Phẩm</h1>
-      <nav class="page-hero__breadcrumb" aria-label="Đường dẫn">
+      <p class="page-banner__label">Tinh hoa yến sào thiên nhiên</p>
+      <h1 class="page-banner__title">Tất Cả Sản Phẩm</h1>
+      <p class="page-banner__desc">Bộ sưu tập yến sào nguyên chất — tuyển chọn kỹ lưỡng, đóng gói cẩn thận cho sức khỏe cả gia đình.</p>
+      <nav class="page-banner__breadcrumb" aria-label="Đường dẫn">
         <a href="index.html">Trang chủ</a>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
-        <span>Sản phẩm</span>
+        <span aria-hidden="true">›</span>
+        <span aria-current="page">Sản phẩm</span>
       </nav>
     </div>
   </section>
@@ -792,193 +719,8 @@
           <!-- Active filters — JS tự dựng theo danh mục/tìm kiếm thật đang chọn -->
           <div class="active-filters" id="active-filters" aria-label="Bộ lọc đang áp dụng"></div>
 
-          <!-- Products Grid -->
-          <div class="products-grid products-grid--3col" id="products-grid">
-
-            <!-- Product 1 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="1" aria-label="Xem nhanh Yến Tinh Chế Kéo Sợi">
-                <img src="images/products/yen-keo-soi.jpg" alt="Yến Tinh Chế Kéo Sợi" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--hot">Bán chạy</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Tinh Chế Kéo Sợi</a></h2>
-                <p class="product-card__subtitle">Hộp tròn 100g — MUA 1 TẶNG 3</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.999.000đ</span>
-                  <span class="price-old">3.500.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="1" data-product-name="Yến Tinh Chế Kéo Sợi" data-product-price="2999000" data-product-image="images/products/yen-keo-soi.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 2 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="2" aria-label="Xem nhanh Yến Tinh Chế Hoa Hồng">
-                <img src="images/products/yen-hoa-hong.jpg" alt="Yến Tinh Chế Hoa Hồng" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--new">Mới</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Tinh Chế Hoa Hồng</a></h2>
-                <p class="product-card__subtitle">Hộp tròn 100g — MUA 1 TẶNG 3</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.749.000đ</span>
-                  <span class="price-old">3.231.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="2" data-product-name="Yến Tinh Chế Hoa Hồng" data-product-price="2749000" data-product-image="images/products/yen-hoa-hong.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 3 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="3" aria-label="Xem nhanh Yến Tinh Chế Viên Bi">
-                <img src="images/products/yen-vien-bi.jpg" alt="Yến Tinh Chế Viên Bi" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--gift">Quà tặng</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Tinh Chế Viên Bi</a></h2>
-                <p class="product-card__subtitle">Hộp tròn 100g — MUA 1 TẶNG 3</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.599.000đ</span>
-                  <span class="price-old">3.077.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="3" data-product-name="Yến Tinh Chế Viên Bi" data-product-price="2599000" data-product-image="images/products/yen-vien-bi.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 4 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="4" aria-label="Xem nhanh Yến Tinh Chế Sợi Rối">
-                <img src="images/products/yen-soi-roi.jpg" alt="Yến Tinh Chế Sợi Rối" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--sale">-15%</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Tinh Chế Sợi Rối</a></h2>
-                <p class="product-card__subtitle">Hộp tròn 100g — MUA 1 TẶNG 3</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.599.000đ</span>
-                  <span class="price-old">3.077.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="4" data-product-name="Yến Tinh Chế Sợi Rối" data-product-price="2599000" data-product-image="images/products/yen-soi-roi.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 5 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="5" aria-label="Xem nhanh Yến Thô Loại 1">
-                <img src="images/products/yen-tho.jpg" alt="Yến Thô Loại 1" loading="lazy" width="400" height="400" class="product-card__img">
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Thô Loại 1</a></h2>
-                <p class="product-card__subtitle">Hộp 100g — Nguyên tổ tự nhiên</p>
-                <div class="product-card__price">
-                  <span class="price-current">1.850.000đ</span>
-                  <span class="price-old">2.200.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="5" data-product-name="Yến Thô Loại 1" data-product-price="1850000" data-product-image="images/products/yen-tho.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 6 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="6" aria-label="Xem nhanh Yến Tinh Chế Tổng Hợp">
-                <img src="images/products/yen-tinh-che.jpg" alt="Yến Tinh Chế Tổng Hợp" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--gift">Quà tặng</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Yến Tinh Chế Tổng Hợp</a></h2>
-                <p class="product-card__subtitle">Hộp quà 100g — Kèm túi vải cao cấp</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.899.000đ</span>
-                  <span class="price-old">3.400.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="6" data-product-name="Yến Tinh Chế Tổng Hợp" data-product-price="2899000" data-product-image="images/products/yen-tinh-che.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 7 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="7" aria-label="Xem nhanh Set Quà Tặng Tết">
-                <img src="images/products/gift-set-tet.jpg" alt="Set Quà Tặng Tết" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--hot">Tết 2026</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Set Quà Tặng Tết Premium</a></h2>
-                <p class="product-card__subtitle">Hộp quà cao cấp — Kèm thiệp cá nhân hóa</p>
-                <div class="product-card__price">
-                  <span class="price-current">3.800.000đ</span>
-                  <span class="price-old">4.500.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="7" data-product-name="Set Quà Tặng Tết Premium" data-product-price="3800000" data-product-image="images/products/gift-set-tet.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-            <!-- Product 8 -->
-            <article class="product-card">
-              <a href="#" class="product-card__img-wrap" data-qv="8" aria-label="Xem nhanh Set Quà Sức Khoẻ">
-                <img src="images/products/gift-set-suckhoue.jpg" alt="Set Quà Sức Khoẻ" loading="lazy" width="400" height="400" class="product-card__img">
-                <span class="product-badge product-badge--new">Mới</span>
-                <div class="product-card__overlay" aria-hidden="true">
-                  <span class="product-card__qv-label">Xem nhanh</span>
-                </div>
-              </a>
-              <div class="product-card__body">
-                <h2 class="product-card__name"><a href="#">Set Quà Sức Khoẻ</a></h2>
-                <p class="product-card__subtitle">Combo dinh dưỡng — Dành cho người thân</p>
-                <div class="product-card__price">
-                  <span class="price-current">2.500.000đ</span>
-                  <span class="price-old">2.950.000đ</span>
-                </div>
-                <button class="btn btn-add-cart" data-product-id="8" data-product-name="Set Quà Sức Khoẻ" data-product-price="2500000" data-product-image="images/products/gift-set-suckhoue.jpg">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-                  Thêm vào giỏ
-                </button>
-              </div>
-            </article>
-
-          </div><!-- /products-grid -->
+          <!-- Products Grid — nội dung do JS render từ Supabase thật (xem script cuối trang) -->
+          <div class="products-grid products-grid--3col" id="products-grid"></div><!-- /products-grid -->
 
           <!-- Pagination thật — nội dung do JS render lại (window.applyRealProductFilters) -->
           <nav class="pagination" id="pagination-nav" aria-label="Phân trang sản phẩm"></nav>
@@ -1335,14 +1077,11 @@
   <script src="js/auth-widget.js"></script>
   <script>
   // ── GĐ 2b: Hiện sản phẩm THẬT từ Supabase vào trang danh sách ──
-  // DB trống/lỗi → giữ nguyên thẻ mẫu sẵn có.
+  // DB trống/lỗi (không do lọc danh mục) → thông báo trung tính, không hiện
+  // thẻ demo giả (id/giá cứng) tránh khách mua nhầm sản phẩm không tồn tại thật.
   (function(){
     var grid = document.getElementById('products-grid');
     if(!grid || typeof getSupabase !== 'function') return;
-    // Giữ lại thẻ mẫu tĩnh để phục hồi nếu DB thật sự lỗi/trống — nhưng ẩn ngay
-    // lập tức bằng dòng "Đang tải" để tránh hiện chớp nhoáng 8 sản phẩm demo
-    // cứng trước khi dữ liệu thật kịp tải xong (fetch Supabase mất một chút thời gian).
-    var fallbackHtml = grid.innerHTML;
     grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:60px 20px">Đang tải sản phẩm…</p>';
     var BADGE = { hot:'Bán chạy', new:'Mới', gift:'Quà tặng', sale:'Giảm giá' };
     var STAR = '<svg width="13" height="13" viewBox="0 0 24 24" fill="#D4AF37" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
@@ -1707,8 +1446,8 @@
           grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:40px 20px">Chưa có sản phẩm nào trong danh mục này.</p>';
           var cntEmpty = document.getElementById('product-count'); if(cntEmpty) cntEmpty.textContent = '0';
         } else {
-          // DB thật sự lỗi/trống (không phải do lọc danh mục) → phục hồi thẻ mẫu tĩnh
-          grid.innerHTML = fallbackHtml;
+          grid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;padding:60px 20px">Danh sách sản phẩm đang được cập nhật, mời bạn quay lại sau ít phút.</p>';
+          var cntErr = document.getElementById('product-count'); if(cntErr) cntErr.textContent = '0';
         }
         return;
       }

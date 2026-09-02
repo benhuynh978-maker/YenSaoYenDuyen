@@ -44,6 +44,15 @@
     .blog-article-wrap { padding: 48px 0 80px; }
     .blog-layout { display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: start; }
 
+    /* Khối trắng bo góc bọc toàn bộ bài viết (tiêu đề → ảnh → nội dung → share),
+       nổi trên nền be chung của toàn site (--color-bg ở body) — đồng bộ cảm giác
+       "card" với các khối .sidebar-widget/.cta-widget bên cạnh, tránh chữ/ảnh
+       nằm trực tiếp trên nền be gây rời rạc. */
+    .article-card { background:#fff; border-radius:14px; padding: 32px 36px 36px; box-shadow: 0 2px 16px rgba(43,36,32,.06); }
+    @media (max-width:600px){
+      .article-card { padding: 22px 18px 28px; border-radius:10px; }
+    }
+
     /* Article */
     .article-header { margin-bottom: 32px; }
     .article-cat {
@@ -91,13 +100,6 @@
     .share-btn--zalo { background:#0068ff; color:#fff; }
     .share-btn--copy { background:#e5e7eb; color:#374151; }
 
-    /* Author box */
-    .author-box { display:flex; gap:16px; align-items:flex-start; background:var(--color-cream); border-radius:10px; padding:20px; margin-top:36px; }
-    .author-avatar { width:56px; height:56px; border-radius:50%; background:var(--gradient-brand); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.3rem; font-weight:700; flex-shrink:0; }
-    .author-name { font-weight:700; color:var(--color-brand); margin-bottom:4px; }
-    .author-title { font-size:.8rem; color:#888; margin-bottom:8px; }
-    .author-bio { font-size:.875rem; color:#555; line-height:1.6; }
-
     /* Sidebar */
     .blog-sidebar { position: sticky; top: 96px; }
     .sidebar-widget { background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius:10px; padding: 24px; margin-bottom: 24px; }
@@ -110,8 +112,13 @@
     .related-article-date { font-size:.75rem; color:#aaa; margin-top:4px; }
 
     .cta-widget { background: var(--gradient-brand); border-radius:10px; padding:24px; text-align:center; color:#fff; margin-bottom:24px; }
-    .cta-widget-title { font-family:var(--font-heading); font-size:1.1rem; margin-bottom:10px; }
-    .cta-widget-desc { font-size:.875rem; opacity:.85; margin-bottom:16px; line-height:1.6; }
+    /* color:#fff khai báo tường minh ở đây — không dựa vào kế thừa từ .cta-widget,
+       vì rule "p { color: var(--color-text) }" ở base.css áp trực tiếp lên chính
+       thẻ <p> này và luôn thắng giá trị kế thừa từ phần tử cha, dù specificity
+       thấp hơn class. Đây là nguyên nhân khiến tiêu đề/mô tả từng bị chìm vào
+       nền tối (gần như cùng màu var(--color-text)). */
+    .cta-widget-title { font-family:var(--font-heading); font-size:1.1rem; margin-bottom:10px; color:#fff; }
+    .cta-widget-desc { font-size:.875rem; opacity:.85; margin-bottom:16px; line-height:1.6; color:#fff; }
     .cta-widget-btn { display:block; background:var(--color-gold); color:var(--color-brand); padding:12px 20px; border-radius:6px; text-decoration:none; font-weight:700; font-size:.9rem; transition:opacity .2s; }
     .cta-widget-btn:hover { opacity:.9; }
 
@@ -199,7 +206,7 @@
         <div class="blog-layout">
 
           <!-- MAIN ARTICLE -->
-          <article>
+          <article class="article-card">
             <header class="article-header">
               <span class="article-cat" id="bv-cat" hidden>…</span>
               <h1 class="article-title" id="bv-title">…</h1>
@@ -236,15 +243,6 @@
               </button>
             </div>
 
-            <!-- Author -->
-            <div class="author-box">
-              <div class="author-avatar" aria-hidden="true">YD</div>
-              <div>
-                <p class="author-name">Đội ngũ Yến Sào Yến Duyên <span class="demo-tag-inline" title="Thông tin tác giả chung, chưa gắn theo từng người viết bài thật">Demo</span></p>
-                <p class="author-title">Chuyên gia tư vấn yến sào &amp; dinh dưỡng</p>
-                <p class="author-bio">Với hơn 10 năm kinh nghiệm trong ngành yến sào, đội ngũ Yến Duyên cam kết cung cấp thông tin chính xác, khoa học về yến sào và dinh dưỡng sức khỏe.</p>
-              </div>
-            </div>
           </article>
 
           <!-- SIDEBAR -->
@@ -260,7 +258,7 @@
               <div class="related-articles" id="bv-related-list"></div>
             </div>
 
-            <div class="sidebar-widget" style="text-align:center;background:var(--color-cream);">
+            <div class="sidebar-widget" style="text-align:center;">
               <p style="font-family:var(--font-heading);font-size:1rem;color:var(--color-brand);margin-bottom:10px;">Tư vấn miễn phí</p>
               <p style="font-size:.875rem;color:#666;margin-bottom:14px;">Có thắc mắc về yến sào? Chuyên gia Yến Duyên sẵn sàng hỗ trợ.</p>
               <a href="https://zalo.me/0986012754" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:#0068ff;color:#fff;padding:10px 20px;border-radius:6px;font-weight:600;text-decoration:none;">

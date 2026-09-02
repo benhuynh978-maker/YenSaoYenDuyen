@@ -150,7 +150,7 @@
   var CANNED_BOXES = {
     'phi-van-chuyen': '🚚 **Phí vận chuyển**\n'
       + '- Miễn phí vận chuyển cho đơn từ 500.000đ.\n'
-      + '- Đơn dưới 500.000đ: phí vận chuyển cố định 35.000đ.',
+      + '- Đơn dưới 500.000đ: phí vận chuyển cố định 40.000đ.',
     'chinh-sach-doi-tra': '🔄 **Chính sách đổi trả & hoàn tiền**\n'
       + '- Được hỗ trợ nếu: hàng lỗi/hỏng do vận chuyển, giao sai sản phẩm/số lượng, không đạt chất lượng cam kết, hoặc hàng giả.\n'
       + '- Không hỗ trợ nếu: đổi ý sau khi nhận hàng, đã mở bao bì/sử dụng, quá 7 ngày kể từ khi nhận hàng, hoặc hư hỏng do bảo quản sai.\n'
@@ -349,6 +349,17 @@
 
     // Lời chào — chỉ ở UI, KHÔNG đẩy vào apiHistory (chưa có lượt user để "trả lời").
     appendDisplay({ role: 'bot', text: 'Xin chào! 👋 Em là trợ lý AI của Yến Duyên — thông tin sản phẩm/khuyến mãi/cửa hàng em trả lời đều lấy **thật** từ hệ thống. Anh/chị cần hỗ trợ gì ạ?' });
+
+    // Tự bật chat khi khách vào site từ BÊN NGOÀI (tab mới/phiên trình duyệt
+    // mới) — dùng sessionStorage nên chỉ tính 1 lần/tab: chuyển qua lại giữa
+    // các trang trong cùng tab KHÔNG tự bật lại; đóng tab rồi mở lại thì tính
+    // là phiên mới nên vẫn tự bật.
+    var isNewSession = false;
+    try { isNewSession = !sessionStorage.getItem('yd-chat-session-seen'); } catch (e) {}
+    try { sessionStorage.setItem('yd-chat-session-seen', '1'); } catch (e) {}
+    if (isNewSession) {
+      setTimeout(function () { setOpen(true); }, 1200);
+    }
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

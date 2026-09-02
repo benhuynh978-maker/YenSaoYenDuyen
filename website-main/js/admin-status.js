@@ -16,14 +16,14 @@
 
   // ── BẢNG KÊ TRẠNG THÁI TỪNG TRANG (theo tên file) ──────────
   var PAGE_STATUS = {
-    'dashboard.html'  : 'demo',
+    'dashboard.html'  : 'live',   // stats/chart/top sản phẩm/đơn gần đây/tìm kiếm đều nối Supabase thật (25/08)
     'don-hang.html'   : 'live',   // đã đọc đơn thật từ Supabase
     'san-pham.html'   : 'live',
     'voucher.html'    : 'live',   // CRUD voucher đã nối Supabase thật, chỉ 2 lựa chọn scope "Khách mới/VIP" còn demo (đã tự ghi chú trong dropdown)
     'blog.html'       : 'live',   // đã chạy add-blog-fields.sql + add-blog-featured.sql, CRUD + hiển thị thật
     'khach-hang.html' : 'live',   // tổng hợp thật từ orders (gộp theo SĐT) + lịch sử đơn thật; lọc Nhóm/Sắp xếp + Export Excel đều dùng dữ liệu thật
     'phan-hoi.html'   : 'live',   // đã nối reviews + contact_messages thật
-    'cai-dat.html'    : 'demo',
+    'cai-dat.html'    : 'live',   // Thông tin cửa hàng nối site_settings thật; đã bỏ ô đổi mật khẩu giả (không còn phần "minh hoạ" nào)
     'sao-luu.html'    : 'live'    // trang sao lưu chạy thật
   };
 
