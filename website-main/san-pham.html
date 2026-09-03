@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="css/products.css">
   <link rel="stylesheet" href="css/sections.css">
   <link rel="stylesheet" href="css/ai-chat.css">
-  <link rel="stylesheet" href="css/responsive.css">
 
   <style>
     /* ── Trang sản phẩm dùng ĐÚNG bảng màu chuẩn toàn site (định nghĩa trong
@@ -410,48 +409,15 @@
     }
     .qty-ctrl button:disabled:hover { background: var(--color-cream); }
 
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .filter-sidebar { width: 220px; }
-      .shop-layout { gap: var(--space-24); }
-      .products-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 768px) {
-      /* Đổi layout thành 1 cột, sidebar thành drawer */
-      .shop-layout { flex-direction: column; }
-      .filter-sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 300px;
-        height: 100vh;
-        overflow-y: auto;
-        background: var(--color-white);
-        z-index: 1100;
-        padding: var(--space-24) var(--space-20);
-        transform: translateX(-100%);
-        transition: transform 0.3s;
-        box-shadow: var(--shadow-xl);
-      }
-      .filter-sidebar.is-open { transform: translateX(0); }
-      .filter-sidebar-backdrop {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.4);
-        z-index: 1099;
-      }
-      .filter-sidebar-backdrop.is-open { display: block; }
-      .btn-filter-toggle { display: flex; }
-      .shop-main { width: 100%; }
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-16); }
-    }
-    @media (max-width: 480px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-12); }
-      .qv-panel { grid-template-columns: 1fr; }
-      .qv-img { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
-    }
+    /* ── Cấu trúc drawer bộ lọc: desktop ẩn phần đầu & đáy (chỉ 1 cột như cũ).
+       Toàn bộ hành vi mobile/iPad (drawer, lưới, toolbar, phân trang) do
+       css/responsive.css lo — file đó nạp SAU khối <style> này nên luôn thắng. ── */
+    .filter-drawer-head,
+    .filter-drawer-foot { display: none; }
+    .filter-drawer-body { display: block; }
   </style>
+  <!-- Nạp SAU <style> nội bộ để mọi rule mobile/iPad (≤1024px) luôn thắng -->
+  <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
@@ -527,6 +493,11 @@
 
         <!-- FILTER SIDEBAR -->
         <aside class="filter-sidebar" id="filter-sidebar" aria-label="Bộ lọc sản phẩm">
+          <div class="filter-drawer-head">
+            <h2>Bộ lọc</h2>
+            <button type="button" class="filter-drawer-close" id="filter-drawer-close" aria-label="Đóng bộ lọc">✕</button>
+          </div>
+          <div class="filter-drawer-body">
           <!-- Category -->
           <div class="filter-panel" id="panel-category">
             <div class="filter-panel__head" id="head-category" role="button" aria-expanded="true" aria-controls="body-category">
@@ -677,6 +648,11 @@
           </div>
 
           <button class="btn-clear-filter" id="btn-clear-filter">Xóa tất cả bộ lọc</button>
+          </div><!-- /filter-drawer-body -->
+          <div class="filter-drawer-foot">
+            <button type="button" class="filter-drawer-clear" id="filter-drawer-clear">Xóa lọc</button>
+            <button type="button" class="filter-drawer-apply" id="filter-drawer-apply">Xem <span id="filter-result-count">8</span> sản phẩm</button>
+          </div>
         </aside>
 
         <!-- FILTER SIDEBAR BACKDROP (mobile) -->
@@ -1009,6 +985,20 @@
   if(btnFilterToggle) btnFilterToggle.addEventListener('click', openFilter);
   if(filterBackdrop) filterBackdrop.addEventListener('click', closeFilter);
 
+  // Drawer bộ lọc (mobile/iPad): nút đóng, nút "Xem N sản phẩm", nút "Xóa lọc", phím Esc
+  var filterDrawerClose = document.getElementById('filter-drawer-close');
+  var filterDrawerApply = document.getElementById('filter-drawer-apply');
+  var filterDrawerClear = document.getElementById('filter-drawer-clear');
+  if(filterDrawerClose) filterDrawerClose.addEventListener('click', closeFilter);
+  if(filterDrawerApply) filterDrawerApply.addEventListener('click', closeFilter);
+  if(filterDrawerClear) filterDrawerClear.addEventListener('click', function(){
+    var bc = document.getElementById('btn-clear-filter');
+    if(bc) bc.click();
+  });
+  document.addEventListener('keydown', function(e){
+    if((e.key === 'Escape' || e.key === 'Esc') && filterSidebar && filterSidebar.classList.contains('is-open')) closeFilter();
+  });
+
   // ---- FILTER PANEL COLLAPSE ----
   document.querySelectorAll('.filter-panel__head').forEach(function(head){
     head.addEventListener('click', function(){
@@ -1207,6 +1197,8 @@
       var start = (currentPage - 1) * PAGE_SIZE;
       renderGrid(currentFilteredList.slice(start, start + PAGE_SIZE));
       renderPagination(currentFilteredList.length);
+      var frc = document.getElementById('filter-result-count');
+      if(frc) frc.textContent = currentFilteredList.length;
     }
 
     function buildCard(p){
@@ -1242,6 +1234,8 @@
       var ov = document.getElementById('qv-overlay');
       grid.querySelectorAll('[data-qv]').forEach(function(el){
         el.addEventListener('click', function(e){
+          // Mobile/iPad (≤1024px): để link mở thẳng trang chi tiết, không mở "Xem nhanh"
+          if (window.matchMedia('(max-width: 1024px)').matches) return;
           e.preventDefault();
           var d = window.QV_DATA[el.dataset.qv]; if(!d) return;
           window.currentQV = d;

@@ -445,3 +445,156 @@
 @media (max-width: 767px) {
   .section-divider { max-width: 240px; margin-top: 16px; margin-bottom: 16px; }
 }
+
+
+/* ==============================================================
+   ĐỢT 3 — TRANG SẢN PHẨM (san-pham.html)
+   san-pham.html nạp file này SAU khối <style> nội bộ của trang
+   → mọi rule ở đây thắng. Desktop (≥1025px) vẫn không đọc tới.
+   ============================================================== */
+
+/* ---- 3.5 Banner đầu trang (dùng chung nhiều trang — chỉ thu gọn ở mobile) ---- */
+@media (max-width: 1024px) {
+  .page-banner { padding: 40px 0 34px; }
+  .page-banner__title { font-size: clamp(1.6rem, 6vw, 2.3rem); margin-bottom: 12px; }
+  .page-banner__desc,
+  .page-banner__sub { font-size: 0.9rem; margin-bottom: 16px; }
+}
+
+/* ---- 3.1 Bố cục + thanh công cụ ---- */
+@media (max-width: 1024px) {
+  .shop-layout { flex-direction: column; gap: 20px; padding: 22px 0 36px; }
+  .shop-main { width: 100%; min-width: 0; }
+
+  .shop-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .shop-toolbar > div:first-child { width: 100%; }
+  .shop-search { min-width: 0; flex-basis: 100%; }
+  .shop-toolbar-right { width: 100%; justify-content: space-between; }
+  .sort-select { flex: 1; }
+  .btn-filter-toggle { display: flex; }
+}
+@media (max-width: 480px) {
+  .view-btns { display: none; }
+}
+
+/* ---- 3.2 Bộ lọc dạng drawer (ngăn kéo trượt từ trái) ---- */
+@media (max-width: 1024px) {
+  .filter-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 86vw);
+    height: 100vh;            /* fallback trình duyệt cũ */
+    height: 100dvh;
+    z-index: 1100;
+    background: var(--color-white);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+    transform: translateX(-100%);
+    transition: transform .3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+  }
+  .filter-sidebar.is-open { transform: translateX(0); }
+
+  .filter-sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1099;
+    background: rgba(0, 0, 0, 0.45);
+  }
+  .filter-sidebar-backdrop.is-open { display: block; }
+
+  .filter-drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+  }
+  .filter-drawer-head h2 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--color-brand);
+    margin: 0;
+  }
+  .filter-drawer-close {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--color-cream);
+    border-radius: 8px;
+    font-size: 17px;
+    line-height: 1;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .filter-drawer-body {
+    display: block;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 16px 18px;
+  }
+  /* Nút "Xóa tất cả bộ lọc" trong thân — mobile dùng nút ở thanh đáy thay thế */
+  .filter-drawer-body > .btn-clear-filter { display: none; }
+
+  .filter-drawer-foot {
+    display: flex;
+    gap: 10px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    background: var(--color-white);
+  }
+  .filter-drawer-clear {
+    padding: 13px 16px;
+    background: transparent;
+    border: 1px solid var(--color-brand-light);
+    border-radius: 9px;
+    color: var(--color-text-medium);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .filter-drawer-apply {
+    flex: 1;
+    padding: 13px;
+    background: var(--gradient-button);
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+}
+
+/* ---- 3.3 Lưới sản phẩm: 2 cột ĐT / 3 cột iPad do ĐỢT 1 lo (đã gỡ ép 2 cột inline) ---- */
+
+/* ---- 3.5 Phân trang ---- */
+@media (max-width: 767px) {
+  .pagination { flex-wrap: wrap; gap: 6px; margin-top: 36px; }
+  .page-btn { width: 36px; height: 36px; font-size: 0.85rem; }
+}
+
+/* ---- 3.6 Xem nhanh (chỉ desktop dùng; phòng khi vẫn mở ở màn nhỏ) ---- */
+@media (max-width: 480px) {
+  .qv-panel { grid-template-columns: 1fr; }
+  .qv-img { border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+}
