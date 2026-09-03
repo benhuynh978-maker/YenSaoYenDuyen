@@ -1,0 +1,303 @@
+/* ==============================================================
+   RESPONSIVE.CSS — Giao diện Mobile & iPad (≤ 1024px)
+   Yến Sào Yến Duyên
+
+   QUY TẮC:
+   • MỌI rule trong file này bọc trong @media (max-width: 1024px)
+     (hoặc dải hẹp hơn). Màn hình ≥ 1025px KHÔNG bao giờ đọc tới các
+     rule này → bản desktop/laptop ở base/header/hero/products/
+     sections.css giữ nguyên tuyệt đối.
+   • File nạp SAU tất cả CSS khác trên mọi trang → thắng nhờ thứ tự.
+   • Đây là NƠI DUY NHẤT chứa CSS mobile/iPad mới. Gỡ 1 dòng <link>
+     là quay về nguyên trạng.
+   • iPad = bản mobile phóng to (menu hamburger, header gọn, nhiều
+     cột hơn) — KHÔNG mượn layout desktop.
+
+   ĐỢT 1 — hạ tầng dùng chung:
+     1a. Menu hamburger (sửa lỗi bấm không mở) + cho cả iPad
+     1b. Chặn tràn ngang
+     1c. Nút liên hệ nổi → 1 FAB tròn bung ra (Gọi/Zalo/FB/Chat)
+     1d. Cỡ chữ tổng thể + nhịp section
+     1e. Lưới + thẻ sản phẩm gọn lại (dùng chung trang chủ & sản phẩm)
+   ============================================================== */
+
+
+/* ==============================================================
+   1d. CỠ CHỮ GỐC + NHỊP SECTION
+   html đang 18px áp cho cả mobile → mọi thứ to 12.5%. Kéo về
+   16px (điện thoại) / 17px (iPad). Đây là đòn bẩy lớn nhất cho
+   "chữ và thẻ quá to". Tinh chỉnh tiếp theo phản hồi trên máy thật.
+   ============================================================== */
+@media (max-width: 1024px) {
+  html { font-size: 16px; }
+
+  :root {
+    --section-padding: clamp(2.25rem, 7vw, 3.5rem);
+    --container-padding: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .section-header { margin-bottom: 2rem; }
+  .section-title  { font-size: clamp(1.5rem, 6vw, 2.1rem); margin-bottom: 0.85rem; }
+  .section-label  { margin-bottom: 0.6rem; }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  html { font-size: 17px; }
+}
+
+
+/* ==============================================================
+   1b. CHẶN TRÀN NGANG
+   ============================================================== */
+@media (max-width: 1024px) {
+  /* overflow-x: clip KHÔNG biến phần tử thành vùng cuộn (khác 'hidden') nên
+     không phá position: sticky. Trình duyệt cũ không hiểu 'clip' → bỏ qua
+     dòng này, giữ nguyên 'hidden' đã có sẵn trong base.css. */
+  html { overflow-x: clip; }
+
+  /* Không cho phần tử con vô tình rộng hơn màn hình */
+  img, video, iframe, table, pre { max-width: 100%; }
+}
+
+
+/* ==============================================================
+   1a. HEADER + MENU HAMBURGER
+   Lỗi gốc: JS các trang bật class .is-open nhưng header.css chỉ
+   mở menu khi [aria-hidden="false"] → bấm không thấy gì.
+   Ở đây hỗ trợ CẢ HAI (.is-open và [aria-hidden="false"]) và
+   mở rộng hamburger cho iPad.
+   :has(#mobile-nav) để KHÔNG giấu nav ở các trang chưa có menu
+   mobile (tránh làm mất điều hướng — sẽ bổ sung header cho các
+   trang đó ở đợt sau).
+   ============================================================== */
+@media (max-width: 1024px) {
+
+  /* Header gọn trên cả iPad */
+  .site-header { height: var(--header-height-mobile, 60px); }
+  .site-header.scrolled { height: var(--header-height-mobile, 60px); }
+  body { padding-top: var(--header-height-mobile, 60px); }
+
+  .site-header:has(#mobile-nav) .main-nav  { display: none; }
+  .site-header:has(#mobile-nav) .menu-toggle { display: flex; }
+
+  #mobile-nav {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: calc(100vh - 60px); /* fallback trình duyệt cũ (không có dvh) */
+    max-height: calc(100dvh - var(--header-height-mobile, 60px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: var(--color-brand);
+    border-top: 1px solid rgba(201, 162, 75, 0.25);
+    box-shadow: 0 16px 32px rgba(43, 36, 32, 0.45);
+
+    /* Hiệu ứng trượt mượt hơn max-height */
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .22s ease, transform .22s ease, visibility .22s;
+  }
+
+  #mobile-nav.is-open,
+  #mobile-nav[aria-hidden="false"] {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-nav-list { padding: 8px 0 16px; }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    min-height: 52px;
+    padding: 12px var(--container-padding);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Nhóm link tài khoản/giỏ/đơn — thêm ở HTML từng trang sau; ở
+     đây chỉ định kiểu sẵn cho <li class="mobile-nav-extra"> */
+  .mobile-nav-extra a {
+    color: var(--color-gold);
+    border-left-color: rgba(201, 162, 75, 0.4);
+  }
+
+  .mobile-nav-cta { padding-top: 14px; margin-top: 6px; }
+  .mobile-nav-cta .btn { min-height: 48px; }
+}
+
+/* iPad: header vẫn cỡ mobile nhưng logo/nav có thể lớn hơn chút */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .mobile-nav-link { font-size: 1rem; }
+}
+
+
+/* ==============================================================
+   1c. NÚT LIÊN HỆ NỔI — gộp Gọi / Zalo / Facebook / Chat AI
+   thành 1 nút tròn (FAB) ở góc phải dưới, chạm để bung ra.
+   Ghi đè hoàn toàn "thanh ngang dưới đáy" của base.css + ai-chat.css.
+   Nút #fab-main do js/mobile-ui.js chèn vào .float-cta.
+   ============================================================== */
+@media (max-width: 1024px) {
+
+  /* --- Bố cục cụm: cột dọc, neo góc phải dưới. Áp KỂ CẢ khi chưa có JS
+         → không JS vẫn là 1 cột nút tròn Gọi/Zalo/FB dùng được bình thường. --- */
+  .float-cta {
+    position: fixed;
+    top: auto;
+    left: auto;
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    z-index: var(--z-float, 90);
+    /* Vùng trống của cụm không chặn thao tác lên nội dung phía dưới. */
+    pointer-events: none;
+  }
+  .float-cta > .float-btn,
+  .float-cta > .ai-chat-toggle,
+  .fab-main { pointer-events: auto; }
+
+  .float-cta > .float-btn,
+  .float-cta > .ai-chat-toggle {
+    order: 1;
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    min-width: 0;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: 0 5px 16px rgba(43, 36, 32, 0.32);
+  }
+
+  /* Bỏ nhãn chữ, chuẩn hoá icon */
+  .float-cta > .float-btn span,
+  .ai-chat-toggle > span:last-child { display: none; }
+  .float-cta > .float-btn svg,
+  .ai-chat-toggle svg { width: 22px; height: 22px; }
+  .float-cta > .float-btn:hover { transform: none; filter: brightness(1.06); }
+
+  /* Nút Chat AI trở lại dạng tròn (ghi đè bản "thanh ngang" ai-chat.css) */
+  .ai-chat-toggle { position: relative; gap: 0; }
+  .ai-chat-toggle__icon,
+  .ai-chat-toggle__close { position: absolute; }
+  .ai-chat-toggle.is-open .ai-chat-toggle__icon  { display: none; }
+  .ai-chat-toggle .ai-chat-toggle__close         { display: none; }
+  .ai-chat-toggle.is-open .ai-chat-toggle__close { display: inline-flex; }
+  .ai-chat-toggle__dot { top: 0; right: 0; }
+
+  /* --- Nút chính FAB (js/mobile-ui.js chèn #fab-main + class .fab-ready) --- */
+  .fab-main {
+    order: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--gradient-button, var(--color-primary));
+    color: #fff;
+    box-shadow: 0 8px 22px rgba(43, 36, 32, 0.38);
+    transition: transform .2s ease;
+  }
+  .fab-main:active { transform: scale(0.94); }
+  .fab-main__close { display: none; }
+  .float-cta.fab-open .fab-main { transform: rotate(90deg); }
+  .float-cta.fab-open .fab-main__open  { display: none; }
+  .float-cta.fab-open .fab-main__close { display: block; }
+
+  /* --- Chỉ thu gọn thành FAB KHI JS đã sẵn sàng (.fab-ready). --- */
+  .float-cta.fab-ready > .float-btn,
+  .float-cta.fab-ready > .ai-chat-toggle {
+    opacity: 0;
+    transform: translateY(14px) scale(0.8);
+    pointer-events: none;
+    visibility: hidden;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  }
+  .float-cta.fab-ready.fab-open > .float-btn,
+  .float-cta.fab-ready.fab-open > .ai-chat-toggle,
+  .float-cta.fab-ready.is-chat-open > .ai-chat-toggle {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    visibility: visible;
+  }
+
+  /* Khi khung chat mở: giấu nút FAB + Gọi/Zalo/FB, chừa nút chat làm nút đóng */
+  .float-cta.fab-ready.is-chat-open .fab-main   { display: none; }
+  .float-cta.fab-ready.is-chat-open > .float-btn { display: none; }
+
+  /* Khung chat: bỏ 100vh (lỗi Safari iOS), neo phía trên FAB, chừa safe-area */
+  .ai-chat-panel {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+    height: calc(100vh - 170px);
+    height: min(560px, calc(100dvh - 172px - env(safe-area-inset-bottom, 0px)));
+  }
+
+  /* Back-to-top: dời sang TRÁI để không đè FAB */
+  .back-to-top {
+    left: 16px;
+    right: auto;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* Không cần đệm đáy cho thanh bar cũ nữa */
+  body { padding-bottom: env(safe-area-inset-bottom, 0px); }
+}
+
+
+/* ==============================================================
+   1e. LƯỚI + THẺ SẢN PHẨM (dùng chung trang chủ & trang sản phẩm)
+   ============================================================== */
+
+/* Điện thoại: 2 cột (bỏ rule ép 1 cột ở base.css:971 & products.css:1484) */
+@media (max-width: 767px) {
+  .products-grid,
+  .products-grid--3col,
+  .products-grid--2col,
+  .featured-products .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .product-card__body    { padding: 12px 12px 14px; gap: 7px; }
+  .product-card__name     { font-size: 0.95rem; line-height: 1.3; min-height: 2.5em; }
+  .product-card__subtitle { font-size: 0.75rem; }
+  .product-card__meta     { font-size: 0.7rem; gap: 6px; }
+  .price-current          { font-size: 1.05rem; }
+  .price-old              { font-size: 0.75rem; }
+  .btn-add-cart           { margin-top: 8px; padding: 9px 10px; font-size: 0.82rem; border-radius: 9px; }
+  .product-badge          { font-size: 0.62rem; padding: 3px 8px; }
+
+  /* Bỏ hiệu ứng hover trên thiết bị cảm ứng */
+  .product-card:hover                       { transform: none; box-shadow: var(--shadow-sm); }
+  .product-card:hover .product-card__img    { transform: none; }
+  .product-card__img-wrap::after           { display: none; }  /* nhãn "Xem nhanh" kiểu hover */
+}
+
+/* iPad: 3 cột */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .products-grid,
+  .products-grid--3col,
+  .products-grid--2col {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .product-card:hover                    { transform: none; }
+  .product-card:hover .product-card__img { transform: none; }
+}
