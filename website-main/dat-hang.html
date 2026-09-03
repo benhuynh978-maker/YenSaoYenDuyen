@@ -926,6 +926,19 @@
   // ---- FORM SUBMIT ----
   var form = document.getElementById('checkout-form');
   if(form){
+    // Mã đơn giữ cố định trong suốt phiên checkout này (kể cả khi khách bấm
+    // "Xác Nhận Đặt Hàng" lại sau một lần lỗi, HOẶC F5 lại trang) — xem ghi chú
+    // ở chỗ tạo payload. Lưu tạm ở sessionStorage để sống qua reload cùng tab.
+    var PENDING_CODE_KEY = 'yd-pending-order-code';
+    var pendingOrderCode = null;
+    try { pendingOrderCode = sessionStorage.getItem(PENDING_CODE_KEY) || null; } catch(e){}
+    function setPendingOrderCode(v){
+      pendingOrderCode = v;
+      try {
+        if(v) sessionStorage.setItem(PENDING_CODE_KEY, v);
+        else sessionStorage.removeItem(PENDING_CODE_KEY);
+      } catch(e){}
+    }
     form.addEventListener('submit', function(e){
       e.preventDefault();
       var ok = true;
@@ -992,9 +1005,16 @@
       var shippingFee = computeShippingFee(subtotal);
       var total = Math.max(0, subtotal - discountAmount + shippingFee);
       var voucherCode = appliedVoucher ? appliedVoucher.code : null;
-      var code = 'YD' + Date.now().toString().slice(-7);
+      // Mã đơn sinh MỘT LẦN cho cả phiên checkout rồi giữ nguyên qua mọi lần bấm
+      // lại. Nếu lần bấm trước đã ghi được đơn mà phản hồi bị mất (rớt mạng sau khi
+      // DB đã lưu), lần sau dùng lại đúng order_code này → DB báo trùng (23505) và
+      // ta nhận ra "đơn đã tạo" thay vì tạo đơn thứ 2.
+      if(!pendingOrderCode){ setPendingOrderCode('YD' + Date.now().toString().slice(-7)); }
+      var code = pendingOrderCode;
 
-      // Lưu vào localStorage để trang thank-you đọc được dù Supabase lỗi
+      // orderData = bản client tự tính, CHỈ dùng làm dự phòng cho trang cảm ơn khi
+      // insert thành công mà RLS không trả lại dòng vừa tạo. KHÔNG ghi localStorage
+      // ở đây — chỉ ghi SAU KHI đơn chắc chắn đã tạo (xem finishCheckout).
       var orderData = {
         order_code: code,
         customer_name: fullname,
@@ -1011,13 +1031,19 @@
         status: 'pending',
         created_at: new Date().toISOString()
       };
-      localStorage.setItem('yen-duyen-last-order', JSON.stringify(orderData));
 
-      // Lấy user hiện tại (nếu đã đăng nhập)
-      getSupabase().auth.getSession().then(function(sessionRes){
-        var userId = null;
-        if(sessionRes.data && sessionRes.data.session) {
-          userId = sessionRes.data.session.user.id;
+      // Xác thực lại phiên với server trước khi ghi đơn (đúng CLAUDE.md #4):
+      // getUser() hỏi Supabase kiểm tra token + tự làm mới nếu cần. Không xác thực
+      // được → KHÔNG gửi đơn hỏng, mời khách đăng nhập lại (giỏ hàng giữ nguyên).
+      getSupabase().auth.getUser().then(function(userRes){
+        var userId = (userRes && userRes.data && userRes.data.user) ? userRes.data.user.id : null;
+        if(!userId){
+          if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Xác Nhận Đặt Hàng'; }
+          showToast('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại để hoàn tất đặt hàng.', 'error');
+          setTimeout(function(){
+            window.location.href = 'dang-nhap.html?redirect=' + encodeURIComponent('dat-hang.html');
+          }, 1600);
+          return;
         }
 
         var payload = {
@@ -1050,61 +1076,116 @@
           }
           placeOrderInsert(payload);
         });
+      }).catch(function(err){
+        console.warn('Không xác thực được phiên trước khi đặt hàng:', err);
+        if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Xác Nhận Đặt Hàng'; }
+        showToast('Không kết nối được máy chủ. Vui lòng kiểm tra mạng rồi thử lại.', 'error');
       });
 
       function placeOrderInsert(payload){
-        // .select() để lấy lại đúng dữ liệu SAU KHI trigger validate_order_price
-        // (sql/add-order-price-validation.sql) đã tính lại giá thật — tránh trang
-        // cảm ơn hiện giá cũ (trước trigger) nếu giá/voucher vừa đổi giữa lúc
-        // khách điền form và lúc bấm đặt hàng.
-        getSupabase().from('orders').insert(payload).select().single().then(function(res){
+        function reenable(){
           if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Xác Nhận Đặt Hàng'; }
+        }
 
-          function finishCheckout(confirmedOrder){
-            // Ghi đè localStorage bằng đơn THẬT đã qua trigger (nếu có) để trang
-            // cảm ơn hiện đúng giá cuối cùng, không phải giá client tự tính trước đó.
-            if(confirmedOrder){
-              localStorage.setItem('yen-duyen-last-order', JSON.stringify(confirmedOrder));
-            }
-            // Chỉ xoá đúng những sản phẩm đã đặt, giữ lại sản phẩm chưa tick chọn
-            var orderedIds = cart.map(function(i){ return i.id; });
-            fullCart = fullCart.filter(function(i){ return orderedIds.indexOf(i.id) === -1; });
-            saveFullCart();
-            cart = fullCart;
-            updateCartBadge();
-            localStorage.removeItem(VOUCHER_STORAGE_KEY);
-            // Redirect sang trang cảm ơn
-            window.location.href = 'dat-hang-thanh-cong.html';
+        function finishCheckout(confirmedOrder){
+          // Ghi localStorage cho trang cảm ơn — CHỈ tới đây, khi đơn ĐÃ CHẮC CHẮN
+          // được ghi vào DB (thành công thật, hoặc phát hiện đã tồn tại từ lần trước).
+          if(confirmedOrder){
+            localStorage.setItem('yen-duyen-last-order', JSON.stringify(confirmedOrder));
           }
+          // Chỉ xoá đúng những sản phẩm đã đặt, giữ lại sản phẩm chưa tick chọn
+          var orderedIds = cart.map(function(i){ return i.id; });
+          fullCart = fullCart.filter(function(i){ return orderedIds.indexOf(i.id) === -1; });
+          saveFullCart();
+          cart = fullCart;
+          updateCartBadge();
+          localStorage.removeItem(VOUCHER_STORAGE_KEY);
+          setPendingOrderCode(null); // đơn đã xong — lần đặt sau sinh mã mới
+          window.location.href = 'dat-hang-thanh-cong.html';
+        }
 
-          if(res.error) {
-            // Phân biệt 2 loại lỗi bằng SQLSTATE code (res.error.code — Postgres
-            // trả nguyên vẹn qua PostgREST), KHÔNG so khớp nội dung message (dễ
-            // vỡ nếu đổi câu chữ thông báo sau này):
-            // - STK01/STK02: trigger validate_order_price CỐ Ý chặn (hết hàng/
-            //   giỏ không còn SP hợp lệ) → đơn KHÔNG được tạo, báo rõ cho khách.
-            //   (tiền tố "STK" = stock, cố tình khác "YD" của order_code để
-            //   không gây nhầm lẫn khi đọc log/debug)
-            // - FS01: trigger CỐ Ý chặn vì suất Flash Sale đã hết/hết giờ/vượt
-            //   giới hạn mua mỗi khách (xem sql/add-flash-sale.sql).
-            // - Mọi mã khác: lỗi hạ tầng/mạng → fail-open, vẫn cho qua để không
-            //   chặn tính năng chính vì lỗi ngoài ý muốn. Xem sql/add-order-price-validation.sql.
-            var TRIGGER_REJECT_CODES = ['STK01', 'STK02', 'FS01'];
-            if(TRIGGER_REJECT_CODES.indexOf(res.error.code) !== -1){
-              if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Xác Nhận Đặt Hàng'; }
-              showToast(res.error.message + '. Vui lòng quay lại giỏ hàng kiểm tra lại.', 'error');
+        // Tra đơn theo order_code của phiên này. Dùng cho: (a) chống đặt trùng khi
+        // lần bấm trước có thể đã ghi đơn xong nhưng phản hồi bị mất; (b) xác nhận
+        // lại sau khi gặp lỗi trùng khoá (23505). RLS chỉ cho chủ đơn đọc đơn của
+        // mình nên nếu tìm thấy thì chắc chắn là đơn của khách này.
+        function findExistingOrder(cb){
+          getSupabase().from('orders').select('*').eq('order_code', payload.order_code).limit(1)
+            .then(function(r){
+              cb((r && !r.error && r.data && r.data.length) ? r.data[0] : null);
+            })
+            .catch(function(){ cb(null); });
+        }
+
+        // Bước chống trùng: nếu đơn này đã có trong DB → đi thẳng trang cảm ơn.
+        findExistingOrder(function(already){
+          if(already){ reenable(); finishCheckout(already); return; }
+          doInsert();
+        });
+
+        function doInsert(){
+          // .select() để lấy lại dữ liệu SAU KHI trigger validate_order_price tính
+          // lại giá thật. .maybeSingle(): nếu RLS không trả lại dòng vừa tạo thì
+          // res.data = null NHƯNG res.error cũng null → vẫn coi là đã tạo thành công.
+          getSupabase().from('orders').insert(payload).select().maybeSingle().then(function(res){
+            if(res.error){
+              var errCode = String(res.error.code || '');
+
+              // (a) Trigger validate_order_price CỐ Ý chặn (hết hàng / giỏ rỗng /
+              //     Flash Sale hết suất) — đơn KHÔNG được tạo, báo rõ cho khách.
+              //     Phân biệt bằng SQLSTATE code, không so khớp nội dung message.
+              var TRIGGER_REJECT_CODES = ['STK01', 'STK02', 'FS01'];
+              if(TRIGGER_REJECT_CODES.indexOf(errCode) !== -1){
+                reenable();
+                showToast(res.error.message + '. Vui lòng quay lại giỏ hàng kiểm tra lại.', 'error');
+                return;
+              }
+
+              // (b) Trùng order_code → gần như chắc lần bấm trước đã tạo đơn.
+              if(errCode === '23505'){
+                findExistingOrder(function(mine){
+                  reenable();
+                  if(mine){ finishCheckout(mine); return; }
+                  // Trùng với mã của người khác (rất hiếm) → sinh mã mới, cho thử lại.
+                  setPendingOrderCode(null);
+                  showToast('Có lỗi mã đơn, vui lòng bấm "Xác Nhận Đặt Hàng" lại.', 'error');
+                });
+                return;
+              }
+
+              // (c) Mọi lỗi khác (RLS 42501, phiên hỏng 401/PGRST301, mất mạng,
+              //     máy chủ 5xx...) → FAIL-CLOSED: KHÔNG giả thành công, KHÔNG xoá
+              //     giỏ hàng, để khách thử lại. Không đưa message của DB vào
+              //     showToast (showToast dựng bằng innerHTML) — chỉ ghi console.
+              console.warn('Đặt hàng thất bại — insert orders lỗi:', errCode, res.error.message);
+              reenable();
+              var AUTH_CODES = ['42501', '401', 'PGRST301', 'PGRST302'];
+              if(AUTH_CODES.indexOf(errCode) !== -1){
+                showToast('Phiên đăng nhập có vấn đề. Vui lòng đăng nhập lại rồi đặt hàng.', 'error');
+                setTimeout(function(){
+                  window.location.href = 'dang-nhap.html?redirect=' + encodeURIComponent('dat-hang.html');
+                }, 1600);
+              } else {
+                showToast('Đặt hàng chưa thành công do lỗi kết nối. Giỏ hàng của bạn được giữ nguyên, vui lòng thử lại sau ít phút.', 'error');
+              }
               return;
             }
-            console.warn('Supabase insert error:', res.error.message);
-            finishCheckout(null);
-            return;
-          }
 
-          // Trừ tồn kho + cộng lượt bán giờ xử lý TỰ ĐỘNG trong Postgres (trigger
-          // trên bảng orders, xem sql/add-product-popularity.sql) ngay khi đơn hàng
-          // vừa insert xong ở trên — không cần gọi thêm API nào từ đây nữa.
-          finishCheckout(res.data);
-        });
+            // Thành công. Trừ tồn kho + cộng lượt bán + thông báo admin do trigger
+            // Postgres tự xử lý ngay khi đơn insert xong. res.data có thể là dòng
+            // thật (đã qua trigger) hoặc null (RLS không trả lại) → dùng orderData
+            // client tính làm dự phòng cho trang cảm ơn.
+            reenable();
+            var confirmed = (res.data && typeof res.data === 'object' && res.data.order_code) ? res.data : orderData;
+            finishCheckout(confirmed);
+          }).catch(function(err){
+            // Promise reject (mạng đứt hẳn giữa chừng) — KHÔNG rõ đơn đã vào DB chưa.
+            // Fail-closed + giữ nguyên order_code để lần bấm sau tự phát hiện qua
+            // findExistingOrder (chống tạo đơn thứ 2).
+            console.warn('Đặt hàng thất bại — lỗi mạng khi insert:', err);
+            reenable();
+            showToast('Mất kết nối khi đang đặt hàng. Giỏ hàng được giữ nguyên — vui lòng kiểm tra mục "Đơn hàng của tôi" trước khi đặt lại.', 'error');
+          });
+        }
       }
       } // end placeOrder
     });
