@@ -301,3 +301,147 @@
   .product-card:hover                    { transform: none; }
   .product-card:hover .product-card__img { transform: none; }
 }
+
+
+/* ==============================================================
+   ĐỢT 2 — TRANG CHỦ (index.html)
+   Tất cả vẫn bọc @media ≤1024px. Ghi đè các rule mobile cũ nằm
+   rải ở base.css / hero.css / sections.css cho riêng trang chủ.
+   ============================================================== */
+
+/* ---- 2.1 HERO ---- */
+@media (max-width: 767px) {
+  /* Bỏ 60px chừa cho thanh bar cũ (đã gỡ ở Đợt 1) */
+  .hero-content { padding-bottom: var(--space-64); }
+  .hero-ornament--bl,
+  .hero-ornament--br { bottom: var(--space-64); }
+  .hero-scroll { display: none; } /* gợi ý cuộn ít tác dụng trên mobile, dễ đè chữ */
+  .hero-actions { gap: 10px; }
+  .hero-actions .btn { width: 100%; }
+}
+
+/* ---- 2.2 CAM KẾT CHẤT LƯỢNG (trust badges) ---- */
+@media (max-width: 767px) {
+  .trust-badges { padding: 22px 0; }
+  .trust-list {
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 12px;
+  }
+  .trust-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+  .trust-icon { width: 44px; height: 44px; }
+  .trust-icon svg { width: 22px; height: 22px; }
+  .trust-text strong { font-size: 0.9rem; }
+  .trust-text span { font-size: 0.74rem; }
+}
+
+/* ---- 2.3 CÂU CHUYỆN THƯƠNG HIỆU (about) ---- */
+@media (max-width: 1024px) {
+  /* Dải ảnh núi: đưa lên đầu section, cao cố định, mờ dần vào nền kem */
+  .about-section {
+    background-image:
+      linear-gradient(to bottom, transparent 0%, transparent 55%, var(--color-cream) 100%),
+      url("../images/hero/nen-nui-cau-chuyen.webp");
+    background-position: center top;
+    background-size: 100% 300px;
+  }
+}
+@media (max-width: 767px) {
+  .about-text { max-width: 100%; }
+  .about-para { font-size: 0.9rem; }
+  .about-signature { font-size: var(--text-lg); }
+  .about-text .btn { width: 100%; justify-content: center; }
+  .about-img-frame { padding: 0; max-width: 420px; }
+  .about-img-thumb {
+    width: 92px;
+    height: 92px;
+    right: -4px;
+    bottom: -4px;
+    border-width: 3px;
+  }
+  .about-img-ornament { display: none; }
+}
+
+/* ---- 2.4 FLASH SALE (khi có đợt đang chạy) ---- */
+@media (max-width: 767px) {
+  .flash-sale-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .flash-sale-title { font-size: 1.4rem; }
+  .flash-sale-countdown__timer { gap: 6px; }
+  /* Cuộn ngang thay vì xếp dọc quá dài */
+  .flash-sale-grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .flash-sale-card {
+    flex: 0 0 68%;
+    max-width: 260px;
+    scroll-snap-align: start;
+  }
+}
+
+/* ---- 2.6 TẠI SAO CHỌN YẾN DUYÊN (nền nâu đậm) ---- */
+@media (max-width: 767px) {
+  .why-us-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 12px;
+  }
+  .why-us-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 14px;
+  }
+  .why-us-icon svg { width: 26px; height: 26px; }
+  .why-us-item h3 { font-size: 1rem; margin-bottom: 8px; }
+  .why-us-item p { font-size: 0.8rem; }
+}
+
+/* ---- 2.7 BỘ QUÀ TẶNG ---- */
+@media (max-width: 767px) {
+  .gift-sets-list { gap: 28px; }
+  .gift-set-content,
+  .gift-set-card--reverse .gift-set-content { padding: 20px 18px 24px; }
+  .gift-set-content h3 { font-size: 1.3rem; margin-bottom: 12px; }
+  .gift-set-content > p { font-size: 0.88rem; }
+  .gift-set-includes li { font-size: 0.82rem; }
+  .gift-set-price .price-value { font-size: 1.5rem; }
+  .gift-set-content .btn { width: 100%; justify-content: center; }
+}
+
+/* ---- 2.8 CẨM NANG (blog) ---- */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 767px) {
+  .blog-card__body { padding: 16px; gap: 8px; }
+  .blog-card__title { font-size: 1rem; }
+  .blog-card__excerpt { font-size: 0.8rem; -webkit-line-clamp: 2; }
+}
+
+/* ---- 2.9 FOOTER (xếp dọc gọn, không accordion) ---- */
+@media (max-width: 767px) {
+  .footer-main { padding: 32px 0 26px; }
+  .footer-grid { gap: 26px; }
+  .footer-col-title {
+    font-size: 0.8rem;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+  }
+  .footer-links { gap: 9px; }
+  .footer-brand-desc { font-size: 0.82rem; }
+  .footer-social { gap: 10px; }
+  .footer-social .social-link { width: 42px; height: 42px; }
+  /* Chừa chút chỗ cho nút FAB nổi + safe-area đáy */
+  .footer-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ---- 2.10 CHUNG ---- */
+@media (max-width: 767px) {
+  .section-divider { max-width: 240px; margin-top: 16px; margin-bottom: 16px; }
+}
