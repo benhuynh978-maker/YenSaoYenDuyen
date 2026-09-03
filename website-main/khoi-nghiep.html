@@ -416,11 +416,39 @@
       }
     }
     @media (max-width: 900px) {
+      /* Điện thoại/tablet: đưa Tìm kiếm + Danh mục LÊN TRƯỚC danh sách bài viết
+         (trước đây cả bảng phụ rơi xuống dưới cùng vì xếp theo thứ tự HTML). */
       .blog-page-inner {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
       }
       .blog-sidebar {
         position: static;
+        order: -1;
+        gap: 14px;
+      }
+      /* "Bài viết mới nhất" trùng lưới ngay bên dưới; "Tư vấn" đã có ở nút liên hệ nổi */
+      #sidebar-latest-widget,
+      .blog-sidebar .sidebar-widget:last-child { display: none; }
+      .blog-sidebar .sidebar-widget { padding: 16px 18px; }
+      .blog-sidebar .sidebar-widget__title { margin-bottom: 12px; padding-bottom: 8px; }
+      /* Danh mục: hàng "chip" cuộn ngang cho gọn thay vì cột dọc dài */
+      .sidebar-cat-list {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 8px;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+      .sidebar-cat-list li a {
+        white-space: nowrap;
+        justify-content: flex-start;
+        gap: 6px;
+        border: 1.5px solid #e0d6cc;
+        border-radius: 999px;
+        padding: 7px 13px;
       }
       .featured-post {
         grid-template-columns: 1fr;
