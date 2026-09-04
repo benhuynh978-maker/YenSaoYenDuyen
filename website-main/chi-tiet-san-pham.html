@@ -10,12 +10,24 @@
   <!-- SEO: title/description/OG được gán động sau khi tải xong sản phẩm -->
   <title>Chi tiết sản phẩm — Yến Sào Yến Duyên</title>
   <meta name="description" content="Yến sào cao cấp Yến Duyên — yến thiên nhiên nguyên chất, sạch lông 100% bằng tay, không tẩy trắng, không chất bảo quản.">
+  <!-- SEO + chia sẻ mạng xã hội. Các giá trị dưới là MẶC ĐỊNH cho bot
+       (Facebook/Zalo không chạy JS). JS bên dưới sẽ ghi đè bằng tên/ảnh
+       sản phẩm thật cho trình duyệt của người dùng. -->
   <meta property="og:type" content="product">
   <meta property="og:site_name" content="Yến Sào Yến Duyên">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:url" content="https://yensaoyenduyen.com/chi-tiet-san-pham.html">
   <meta property="og:title" content="Chi tiết sản phẩm — Yến Sào Yến Duyên">
   <meta property="og:description" content="Yến sào cao cấp Yến Duyên — yến thiên nhiên nguyên chất, sạch lông 100% bằng tay.">
-  <meta property="og:image" content="">
-  <link rel="canonical" id="canonical-url" href="">
+  <meta property="og:image" content="https://yensaoyenduyen.com/images/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Tổ yến sào nguyên chất Yến Sào Yến Duyên">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Chi tiết sản phẩm — Yến Sào Yến Duyên">
+  <meta name="twitter:description" content="Yến sào cao cấp Yến Duyên — yến thiên nhiên nguyên chất, sạch lông 100% bằng tay.">
+  <meta name="twitter:image" content="https://yensaoyenduyen.com/images/og-image.jpg">
+  <link rel="canonical" id="canonical-url" href="https://yensaoyenduyen.com/chi-tiet-san-pham.html">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -972,8 +984,8 @@
 
     // Breadcrumb
     var bc = {'@context':'https://schema.org/','@type':'BreadcrumbList','itemListElement':[
-      {'@type':'ListItem','position':1,'name':'Trang chủ','item':'https://yenduyen.vn/index.html'},
-      {'@type':'ListItem','position':2,'name':'Sản phẩm','item':'https://yenduyen.vn/san-pham.html'},
+      {'@type':'ListItem','position':1,'name':'Trang chủ','item':'https://yensaoyenduyen.com/index.html'},
+      {'@type':'ListItem','position':2,'name':'Sản phẩm','item':'https://yensaoyenduyen.com/san-pham.html'},
       {'@type':'ListItem','position':3,'name':p.name}
     ]};
     var sb = el('ld-breadcrumb'); if(sb) sb.textContent = JSON.stringify(bc);
@@ -1007,7 +1019,7 @@
     document.querySelector('meta[property="og:description"]').setAttribute('content', p.description||p.name);
     document.querySelector('meta[property="og:image"]').setAttribute('content', GALLERY[0]);
     var canon = document.getElementById('canonical-url');
-    if (canon) canon.href = 'https://yenduyen.vn/chi-tiet-san-pham.html?id=' + p.id;
+    if (canon) canon.href = 'https://yensaoyenduyen.com/chi-tiet-san-pham.html?id=' + p.id;
 
     // Badge
     var BADGE_LABEL = { hot:'★ Bán chạy', new:'✦ Mới', gift:'🎁 Quà tặng', sale:'🔥 Giảm giá' };
